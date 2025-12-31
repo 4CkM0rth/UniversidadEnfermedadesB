@@ -1,0 +1,20 @@
+application:
+  security:
+    jwt:
+      secret-key: Rvyw2VKSDDySodZDCtcIMaWYt/4l9den4OmLf78Yo8WMENM2MlEmFte23KnVnS
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 #7 days
+
+spring:
+  jpa:
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: jdbc:mysql://localhost/universidad?createDatabaseIfNotExist=true
+    username : root
+    password: 2004
+server:
+  port: 8282
