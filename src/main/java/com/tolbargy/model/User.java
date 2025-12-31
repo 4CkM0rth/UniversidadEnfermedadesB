@@ -18,17 +18,13 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(unique = true, nullable = false)
     private String usuario;
 
     @Column(nullable = false)
     private String password;
-
-    // ==========================
-    // Spring Security
-    // ==========================
 
     @Override
     public String getUsername() {
@@ -59,4 +55,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }
