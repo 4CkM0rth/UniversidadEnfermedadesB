@@ -1,0 +1,59 @@
+[1mdiff --git a/src/main/java/com/tolbargy/config/AppConfig.java b/src/main/java/com/tolbargy/config/AppConfig.java[m
+[1mindex 8155d45..a993f60 100644[m
+[1m--- a/src/main/java/com/tolbargy/config/AppConfig.java[m
+[1m+++ b/src/main/java/com/tolbargy/config/AppConfig.java[m
+[36m@@ -1,6 +1,5 @@[m
+ package com.tolbargy.config;[m
+ [m
+[31m-import com.tolbargy.model.User;[m
+ import com.tolbargy.repository.UserRepository;[m
+ import lombok.RequiredArgsConstructor;[m
+ import org.springframework.context.annotation.Bean;[m
+[36m@@ -22,17 +21,8 @@[m [mpublic class AppConfig {[m
+ [m
+     @Bean[m
+     public UserDetailsService userDetailsService() {[m
+[31m-        return username -> {[m
+[31m-            User user = repository.findByUsuario(username)[m
+[31m-                    .orElseThrow(() ->[m
+[31m-                            new UsernameNotFoundException("User not found"));[m
+[31m-[m
+[31m-            return org.springframework.security.core.userdetails.User[m
+[31m-                    .withUsername(user.getUsuario())[m
+[31m-                    .password(user.getPassword())[m
+[31m-                    .authorities("USER")[m
+[31m-                    .build();[m
+[31m-        };[m
+[32m+[m[32m        return username -> repository.findByUsuario(username)[m
+[32m+[m[32m                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));[m
+     }[m
+ [m
+     @Bean[m
+[36m@@ -40,12 +30,14 @@[m [mpublic class AppConfig {[m
+             UserDetailsService userDetailsService,[m
+             PasswordEncoder passwordEncoder[m
+     ) {[m
+[31m-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();[m
+[31m-        authProvider.setUserDetailsService(userDetailsService);[m
+[32m+[m[32m        DaoAuthenticationProvider authProvider =[m
+[32m+[m[32m                new DaoAuthenticationProvider(userDetailsService);[m
+[32m+[m
+         authProvider.setPasswordEncoder(passwordEncoder);[m
+         return authProvider;[m
+     }[m
+ [m
+[32m+[m
+     @Bean[m
+     public AuthenticationManager authenticationManager([m
+             AuthenticationConfiguration config[m
+[36m@@ -58,3 +50,4 @@[m [mpublic class AppConfig {[m
+         return new BCryptPasswordEncoder();[m
+     }[m
+ }[m
+[41m+[m
+[1mdiff --git a/target/classes/com/tolbargy/config/AppConfig.class b/target/classes/com/tolbargy/config/AppConfig.class[m
+[1mindex 5127d74..b146fe2 100644[m
+Binary files a/target/classes/com/tolbargy/config/AppConfig.class and b/target/classes/com/tolbargy/config/AppConfig.class differ
+[1mdiff --git a/target/classes/com/tolbargy/config/JwtAuthFilter.class b/target/classes/com/tolbargy/config/JwtAuthFilter.class[m
+[1mindex c6af472..2b647c2 100644[m
+Binary files a/target/classes/com/tolbargy/config/JwtAuthFilter.class and b/target/classes/com/tolbargy/config/JwtAuthFilter.class differ
