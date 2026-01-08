@@ -1,11 +1,10 @@
 package com.tolbargy.controller;
 
+import com.tolbargy.dtos.TipoIdentificacionDTO;
 import com.tolbargy.model.TipoIdentificacion;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.tolbargy.service.ITipoIdentificacionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,8 +16,17 @@ public class TipoIdentificacionController {
     private ITipoIdentificacionService service;
 
     @GetMapping("")
-    public List<TipoIdentificacion> listarTodos() {
-        return service.listarTodos();
+    public List<TipoIdentificacionDTO> listarTodos() {
+        return service.listarTodos()
+                .stream()
+                .map(this::toDTO)
+                .toList();
     }
 
+    private TipoIdentificacionDTO toDTO(TipoIdentificacion t) {
+        return new TipoIdentificacionDTO(
+                t.getId(),
+                t.getNombre()
+        );
+    }
 }

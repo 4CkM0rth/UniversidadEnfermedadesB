@@ -1,5 +1,6 @@
 package com.tolbargy.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,6 +15,7 @@ public class EnfermedadEstudiante {
 
     @ManyToOne
     @JoinColumn(name = "id_estudiante", nullable = false)
+    @JsonBackReference
     private Estudiante estudiante;
 
     @Column(name = "nombre", nullable = false, length = 50)
@@ -21,5 +23,7 @@ public class EnfermedadEstudiante {
 
     @Column(name = "observacion", nullable = false, length = 255)
     private String observacion;
+
+
 
 }

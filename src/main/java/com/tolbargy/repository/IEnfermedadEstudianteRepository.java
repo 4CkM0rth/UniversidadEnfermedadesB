@@ -13,5 +13,7 @@ public interface IEnfermedadEstudianteRepository extends JpaRepository<Enfermeda
 
     @Query("from EnfermedadEstudiante ee where ee.estudiante.id = :idEstudiante")
     public List<EnfermedadEstudiante> listarPorIdEstudiante(@Param("idEstudiante") int idEstudiante);
+    void deleteByEstudianteId(Integer estudianteId);
+
 
 }
