@@ -1,9 +1,12 @@
 package com.tolbargy.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -33,5 +36,12 @@ public class Estudiante {
     @ManyToOne
     @JoinColumn(name = "id_tipo_sangre", nullable = false)
     private TipoSangre tipoSangre;
+
+    @OneToMany(mappedBy = "estudiante")
+    @JsonManagedReference
+    private List<EnfermedadEstudiante> enfermedades;
+
+
+
 
 }

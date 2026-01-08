@@ -23,11 +23,14 @@ public class AppConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
-            final User user = repository.findByUsuario(username)
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-            return org.springframework.security.core.userdetails.User.builder()
-                    .username(user.getUsuario())
+            User user = repository.findByUsuario(username)
+                    .orElseThrow(() ->
+                            new UsernameNotFoundException("User not found"));
+
+            return org.springframework.security.core.userdetails.User
+                    .withUsername(user.getUsuario())
                     .password(user.getPassword())
+                    .authorities("USER")
                     .build();
         };
     }
@@ -37,15 +40,16 @@ public class AppConfig {
             UserDetailsService userDetailsService,
             PasswordEncoder passwordEncoder
     ) {
-        DaoAuthenticationProvider authProvider =
-                new DaoAuthenticationProvider(userDetailsService);
-
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder);
         return authProvider;
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration config
+    ) throws Exception {
         return config.getAuthenticationManager();
     }
 
